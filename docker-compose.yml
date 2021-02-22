@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  mongo_node:
+    container_name: mongo_node
+    image: mongo:4.4
+    ports:
+      - 27017:27017
+    networks:
+      - node_network
+  app-node:
+    container_name: app-node
+    image: andrijunaedi/app-node:1.2
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo_node
+    environment:
+      - NAME=Andri
+      - MONGO_HOST=mongo_node
+      - MONGO_PORT=27017
+    networks:
+      - node_network
+
+networks:
+  node_network:
+    name: node_network
